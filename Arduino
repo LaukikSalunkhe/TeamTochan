@@ -1,0 +1,51 @@
+// C++ code
+//
+#include <Servo.h>
+
+int i = 0;
+
+int led_status = 0;
+
+int sensor_value = 0;
+
+int speed = 0;
+
+int output = 0;
+
+int btn_status = 0;
+
+int j = 0;
+
+int k = 0;
+
+Servo servo_4;
+
+void setup()
+{
+  pinMode(7, INPUT);
+  pinMode(12, OUTPUT);
+  pinMode(A0, INPUT);
+  servo_4.attach(4, 500, 2500);
+}
+
+void loop()
+{
+  btn_status = digitalRead(7);
+  if (btn_status == HIGH) {
+    digitalWrite(12, HIGH);
+  } else {
+    digitalWrite(12, LOW);
+  }
+  if (btn_status == LOW) {
+    sensor_value = analogRead(A0);
+    speed = map(sensor_value, 0, 1023, 5, 15);
+    for (i = 0; i <= 180; i += 1) {
+      servo_4.write(i);
+      delay(speed); // Wait for speed millisecond(s)
+    }
+    for (i = 180; i >= 0; i -= 1) {
+      servo_4.write(i);
+      delay(speed); // Wait for speed millisecond(s)
+    }
+  }
+}
